@@ -1,0 +1,15 @@
+Method to install :
+Step 1: Install Dependencies (if needed)
+If you're running this locally, ensure you have Node.js installed. Then, inside your project folder, install dependencies: "npm install"
+Step 2: Run Locally (Test Before Deployment)
+Start the app in development mode: 
+"npm run dev"  # If using Vite
+# OR
+"npm start"    # If using Create React App
+Step 3: Deploy Your Game Online
+There are multiple ways to deploy your game:
+Option 1: Deploy on Vercel (Fast & Free)
+Install Vercel CLI if you haven't: "npm install -g vercel"
+Login to Vercel:vercel login
+Deploy: "vercel"
+Vercel will provide a live URL for your game.
