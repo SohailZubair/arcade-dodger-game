@@ -1,0 +1,55 @@
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+
+export default function DodgerGame() {
+  const [playerX, setPlayerX] = useState(50);
+  const [obstacleY, setObstacleY] = useState(-10);
+  const [obstacleX, setObstacleX] = useState(Math.random() * 90);
+  const [gameOver, setGameOver] = useState(false);
+
+  useEffect(() => {
+    if (gameOver) return;
+
+    const moveObstacle = setInterval(() => {
+      setObstacleY((prevY) => {
+        if (prevY >= 100) {
+          setObstacleY(-10);
+          setObstacleX(Math.random() * 90);
+        }
+        return prevY + 2;
+      });
+    }, 50);
+
+    return () => clearInterval(moveObstacle);
+  }, [gameOver]);
+
+  useEffect(() => {
+    if (obstacleY >= 90 && Math.abs(obstacleX - playerX) < 10) {
+      setGameOver(true);
+    }
+  }, [obstacleY, playerX]);
+
+  const moveLeft = () => setPlayerX((prev) => Math.max(prev - 10, 0));
+  const moveRight = () => setPlayerX((prev) => Math.min(prev + 10, 90));
+
+  return (
+    <div className="relative w-full h-96 bg-gray-800 flex items-end justify-center">
+      {gameOver && <div className="absolute top-10 text-red-500 text-xl">Game Over! Refresh to Restart</div>}
+      
+      <motion.div
+        className="absolute bottom-4 w-10 h-10 bg-blue-500 rounded-md"
+        animate={{ x: `${playerX}%` }}
+      />
+      
+      <motion.div
+        className="absolute w-10 h-10 bg-red-500 rounded-md"
+        style={{ top: `${obstacleY}%`, left: `${obstacleX}%` }}
+      />
+      
+      <div className="absolute bottom-2 flex gap-4">
+        <button className="bg-white p-2 rounded" onClick={moveLeft}>Left</button>
+        <button className="bg-white p-2 rounded" onClick={moveRight}>Right</button>
+      </div>
+    </div>
+  );
+}
